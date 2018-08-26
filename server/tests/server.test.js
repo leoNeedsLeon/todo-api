@@ -4,8 +4,18 @@ const expect = require('expect'),
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
+const todos = [{
+        text: 'First test todo'
+    },{
+        text: 'Second test todo'
+    }
+];  
+
 beforeEach((done)=>{
-    Todo.remove({}).then((docs)=>done()).catch((err)=>{return err;});
+    Todo.remove({}).then((docs)=>{
+        return Todo.insertMany(todos);})
+        .then(()=>done())
+        .catch((err)=>{return err;});
 });
 
 describe('POST /todos',()=>{
@@ -33,4 +43,4 @@ describe('POST /todos',()=>{
                 });
             });
         });
-});
+}); 
